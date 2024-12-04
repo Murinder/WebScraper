@@ -1,0 +1,116 @@
+/* Основной контейнер */
+.article-details {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Заголовок статьи */
+.article-details h2 {
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+/* Основной текст */
+.article-details p {
+    margin: 10px 0;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Выделение полей "Автор", "Дата", "Теги" */
+.article-details p strong {
+    color: #555;
+}
+
+/* Ссылка на оригинальную статью */
+.article-details a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.article-details a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Кнопки */
+.article-details button {
+    margin: 10px 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.article-details button:hover {
+    transform: scale(1.05);
+}
+
+.article-details button:active {
+    transform: scale(0.98);
+}
+
+.article-details .edit-btn {
+    background-color: #007bff;
+}
+
+.article-details .edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.article-details .cancel-btn {
+    background-color: #6c757d;
+}
+
+.article-details .cancel-btn:hover {
+    background-color: #5a6268;
+}
+
+.article-details .save-btn {
+    background-color: #28a745;
+}
+
+.article-details .save-btn:hover {
+    background-color: #218838;
+}
+
+/* Форма редактирования */
+.edit-form input,
+.edit-form textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.edit-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .article-details {
+        padding: 15px;
+    }
+
+    .article-details h2 {
+        font-size: 20px;
+    }
+
+    .article-details button {
+        font-size: 12px;
+    }
+}

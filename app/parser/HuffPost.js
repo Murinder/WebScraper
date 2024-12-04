@@ -18,24 +18,21 @@ function fetchArticleDetails(url, callback) {
 
         const $ = cheerio.load(body);
 
-        // Извлечение данных по указанным селекторам из файла ОДВР
-        const author = $('a[class^="ArticleBylines_link"]').text().trim();  // Автор статьи
-        const tags = $('a[data-event-element="rubric"]').map((i, el) => $(el).text().trim()).get(); // Рубрика статьи
-        let date = $('[class^="ArticleTimestamp_root__"]').text().trim();  // Дата публикации
-        if(date.indexOf(',') !== date.lastIndexOf(',')){
-            date = date.slice(0, date.lastIndexOf(','));
-        }
-        const text = $('p[class^="ArticleParagraph_root"]').text().trim();  // Текст статьи
+        // Извлечение данных по указанным селекторам
+        const author = $('div.entry__byline__author > a > span').text().trim();
+        const date = $('div.timestamp').text().trim();
+        const text = $('div[class="primary-cli cli cli-text "]').text().trim();  // Обновите селектор в зависимости от структуры статьи
+        const tags = $('div.label__content > a').map((i, el) => $(el).text().trim()).get(); // Извлечение тегов статьи
 
         // Формируем объект с данными
-        const articleDetails = { author, date, text, tags};
+        const articleDetails = { author, date, text, tags };
         callback(articleDetails);
     });
 }
 
-// Основная функция для парсинга главной страницы и сбора ссылок на статьи
-async function scrapeAtlantic() {
-    const url = 'https://www.theatlantic.com/';
+// Основная функция для парсинга главной страницы и сбора ссылок
+async function scrapeHuffPost() {
+    const url = 'https://www.huffpost.com/';
 
     request(url, async (error, response, body) => {
         if (error) {
@@ -48,11 +45,11 @@ async function scrapeAtlantic() {
         // Массив для хранения данных о статьях
         const articles = [];
 
-        // Извлекаем ссылки по селектору 'a[class*="titleLink"]'
+        // Извлекаем ссылки по селектору 'a[class="card__headline card__headline--long"]'
         const links = [];
-        $('a[class*="titleLink"]').each((index, element) => {
-            const href = $(element).attr('href');  // Ссылка на статью
-            const title = $(element).text().trim();  // Заголовок статьи
+        $('a[class="card__headline card__headline--long"]').each((index, element) => {
+            const href = $(element).attr('href'); // Ссылка на статью
+            const title = $(element).text().trim(); // Текст ссылки (заголовок статьи)
 
             if (href) {
                 links.push({ href, title });
@@ -85,12 +82,12 @@ async function scrapeAtlantic() {
         }
 
         // Сохраняем собранные данные в JSON файл
-        fs.writeFile('atlantic_articles_detailed.json', JSON.stringify(articles, null, 2), (err) => {
+        fs.writeFile('json/huffpost_articles_detailed.json', JSON.stringify(articles, null, 2), (err) => {
             if (err) throw err;
-            console.log('Данные с The Atlantic сохранены в atlantic_articles_detailed.json');
+            console.log('Данные с HuffPost сохранены в huffpost_articles_detailed.json');
         });
     });
 }
 
 // Запуск функции для сбора данных
-module.exports = scrapeAtlantic;
+module.exports = scrapeHuffPost;

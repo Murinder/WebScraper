@@ -19,20 +19,23 @@ function fetchArticleDetails(url, callback) {
         const $ = cheerio.load(body);
 
         // Извлечение данных по указанным селекторам
-        const author = $('div.entry__byline__author > a > span').text().trim();
-        const date = $('div.timestamp').text().trim();
-        const text = $('div[class="primary-cli cli cli-text "]').text().trim();  // Обновите селектор в зависимости от структуры статьи
-        const tags = $('div.label__content > a').map((i, el) => $(el).text().trim()).get(); // Извлечение тегов статьи
+        const title = $('h1').text().trim(); // Текст ссылки (заголовок статьи)
+        const author = $('a[rel="author"]').text().trim();
+        let date = ($('span[class="dcr-u0h1qy"]').text().trim());
+        if(!date) date = $('div[class="dcr-1pexjb9"]').text().trim();
+        date = date.slice(4, date.length - 11);
+        const tags = $('a[data-link-name="article section"] > span').map((i, el) => $(el).text().trim()).get();
+        const text = $('#maincontent > div > p').text().trim();
 
         // Формируем объект с данными
-        const articleDetails = { author, date, text, tags };
+        const articleDetails = { title, author, date,  text, tags};
         callback(articleDetails);
     });
 }
 
 // Основная функция для парсинга главной страницы и сбора ссылок
-async function scrapeHuffPost() {
-    const url = 'https://www.huffpost.com/';
+async function scrapeGuardian() {
+    const url = 'https://www.theguardian.com/international';
 
     request(url, async (error, response, body) => {
         if (error) {
@@ -45,16 +48,16 @@ async function scrapeHuffPost() {
         // Массив для хранения данных о статьях
         const articles = [];
 
-        // Извлекаем ссылки по селектору 'a[class="card__headline card__headline--long"]'
+        // Извлекаем ссылки по селектору 'a[class="dcr-lv2v9o"]'
         const links = [];
-        $('a[class="card__headline card__headline--long"]').each((index, element) => {
-            const href = $(element).attr('href'); // Ссылка на статью
-            const title = $(element).text().trim(); // Текст ссылки (заголовок статьи)
+        $('a[class="dcr-lv2v9o"]').each((index, element) => {
+            const href = "https://www.theguardian.com" + $(element).attr('href'); // Ссылка на статью
 
             if (href) {
-                links.push({ href, title });
+                links.push({ href });
             }
         });
+        //console.log(links);
 
         // Проходим по каждой ссылке с задержкой
         for (let i = 0; i < links.length; i++) {
@@ -69,7 +72,6 @@ async function scrapeHuffPost() {
                         // Добавляем данные статьи в массив
                         articles.push({
                             href: link.href,
-                            title: link.title,
                             ...articleDetails
                         });
                     }
@@ -82,12 +84,12 @@ async function scrapeHuffPost() {
         }
 
         // Сохраняем собранные данные в JSON файл
-        fs.writeFile('huffpost_articles_detailed.json', JSON.stringify(articles, null, 2), (err) => {
+        fs.writeFile('json/guardian_articles_detailed.json', JSON.stringify(articles, null, 2), (err) => {
             if (err) throw err;
-            console.log('Данные с HuffPost сохранены в huffpost_articles_detailed.json');
+            console.log('Данные с The Guardian сохранены в guardian_articles_detailed.json');
         });
     });
 }
 
 // Запуск функции для сбора данных
-module.exports = scrapeHuffPost;
+module.exports = scrapeGuardian;

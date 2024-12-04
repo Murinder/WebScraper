@@ -1,0 +1,143 @@
+/* Общие стили для списка статей */
+.article-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.article-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.article-list li:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.02);
+}
+
+/* Ссылка на статью */
+.article-list li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+    flex-grow: 1;
+    transition: color 0.3s;
+}
+
+.article-list li a:hover {
+    color: #0056b3;
+}
+
+/* Кнопка удаления статьи */
+.delete-btn {
+    padding: 5px 10px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #e60000;
+    transform: scale(1.05);
+}
+
+/* Кнопка создания статьи */
+button {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Центрирование основного блока */
+.article-list-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для фильтра и сортировки */
+.filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filters div {
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 15px;
+}
+
+.filters label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.filters input,
+.filters select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.filters button {
+    width: auto;
+    background-color: #28a745;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filters button:hover {
+    background-color: #218838;
+}
+
+/* Стили для кнопки "Применить" */
+.filters button {
+    width: auto;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filters button:hover {
+    background-color: #0056b3;
+}
